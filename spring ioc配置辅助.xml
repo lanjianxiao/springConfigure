@@ -1,0 +1,78 @@
+<!--引入多个xml文件 -->
+<import resource="" />
+<!-- 引入properies文件-->
+<context:property-placeholder location="" ignore-resource-not-found="true|false" />
+<!-- 开启使用注解注入-->
+<context:annotation-config />
+<!-- 扫描指定包,多个包用","隔开-->
+<context:component-scan base-package="" />
+<!--开启注解使用aop -->
+<aop:aspectj-autoproxy />
+
+<!-- spring-myBatis-->
+<!--配置数据源 -->
+<bean id="dataSource" class="" >
+	<!--配置 -->
+</bean>
+<!--配置mybatis连接工厂-->
+<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean" >
+	<property name="dataSource" ref="dataSource"></property>
+	<property name="configLocation" value="myBatis配置文件路径"></property>
+</bean>
+<!--扫描接口，创建动态代理类,myBatis配置文件可不用配置mapper-->
+<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+	<property name="basePackage" value="接口包所在路径，多个用","隔开"></property>
+	<property name="SqlSessionFactory" ref="SqlSessionFactory"></property>
+	<property name="annotationClass" value="org.springframework.stereotype.Repository"></property>
+</bean>
+
+<!--事务管理 -->
+<!-- 开启注解使用事务-->
+<tx:annotation-driven transaction-manager="transactionManager"/>
+<!--设置对目标数据源使用事务 -->
+<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+	<property name="dataSource" ref="dataSource"></property>
+</bean>
+
+<!--使用xml配置spring aop -->
+<aop:config>
+	<aop:aspect ref="">
+		<!--aop:before,aop:after,aop:after-returning,aop:after-throwing,aop:around -->
+		<!--不使用切点-->
+		<aop:before pointcut="" method="" arg-names=""/>
+		<!-- 使用切点-->
+		<aop:pointcut id="" expression="" />
+		<aop:before pointcut-ref="" method="" />
+		<!-- 环绕通知-->
+		<aop:around pointcut="" method="" />
+		<!-- 引入-->
+		<aop:declare-parents type-mathchs="需要增强的类的全限定名+‘+’" implement-interface="接口的全限定名" default-impl="接口实现类的全限定名" />
+	</aop:aspect>
+</aop:config>
+
+<!--spring jms -->
+<!--使用activeMQ -->
+<!--创建连接工厂-->
+<bean id="targetConnectionFactory" class="org.apache.activemq.ActiveMQConnectionFactory">
+	<property name="brokerURL" value="activeMQ访问地址"></property>
+</bean>
+<!-- 使用spring提供的连接池-->
+<bean id="connectionFactory" class="org.springframework.jms.connection.SingleConnectionFactory">
+	<property name="targetConnectionFactory" ref="targetConnectionFactory"></property>
+</bean>
+<!--指定目的地（Queue|Topic）-->
+<bean id="destination" class="">
+	<constructor-arg value="目的地名字"></constructor-arg>
+</bean>
+<!--发送信息-->
+<bean id="jmsTemplate" class="org.springframework.jms.core.JmsTemplate">
+    <property name="connectionFactory" ref="connectionFactory"/>
+    <property name="defaultDestination" ref="destination"></property>
+</bean>
+<!--接收信息-->
+<bean name="comsumer" class="实现onMessage的类的全限定名"></bean>
+<bean name="jmsContainer" class="org.springframework.jms.listener.DefaultMessageListenerContainer">
+	<property name="connectionFactory" ref="connectionFactory"></property>
+	<property name="destination" ref="destination"></property>
+	<property name="messageListener" ref="comsumer"></property>
+</bean>

@@ -1,0 +1,39 @@
+<!--spring为我们提供的乱码过滤器-->
+<filter>
+	<filter-name>CharacterEncodingFilter</filter-name>
+    <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+    <init-param>
+		<param-name>encoding</param-name>
+		<param-value>utf-8</param-value>
+    </init-param>
+</filter>
+<filter-mapping>
+	<filter-name>CharacterEncodingFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+</filter-mapping>
+
+<!--初始化spring ioc容器 -->
+<context-param>
+  	<param-name>contextConfigLocation</param-name>
+  	<param-value>配置文件路径，多个用','隔开</param-value>
+</context-param>
+<listener>
+  	<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+</listener>
+
+<!--初始化MVC -->
+ <servlet>
+	<servlet-name>springMVC(任意取名)</servlet-name>
+  	<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+	<!--如果不配置以下，则默认加载springMVC-servlet.xml配置文件-->
+  	<init-param>
+  		<param-name>contextConfigLocation</param-name>
+  		<param-value>classpath:springMVC.xml</param-value>
+  	</init-param>
+  	<load-on-startup>2</load-on-startup>
+</servlet>
+<!--拦截设置-->
+<servlet-mapping>
+  	<servlet-name>springMVC</servlet-name>
+  	<url-pattern>/</url-pattern>
+</servlet-mapping>

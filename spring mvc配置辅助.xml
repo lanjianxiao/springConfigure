@@ -1,0 +1,20 @@
+<!--开启使用注解 -->
+<mvc:annotation-driven />
+<!--配置不解析静态文件如js等 -->
+<mvc:default-servlet-handler />
+<!--扫描指定包,多个包用','隔开-->
+<context:component-scan base-package="">
+<!--引入多个xml文件 -->
+<import resource="" />
+<!--配置视图解析器 -->
+<bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+	<property name="prefix" value="/WEB-INF/jsp/"></property>
+	<property name="suffix" value=".jsp"></property>
+</bean>
+<!--配置拦截器 -->
+<mvc:interceptors>  <!--实现HandlerInterceptor接口或继承HandlerInterceptorAdaptor-->
+	<mvc:interceptor>
+		<mvc:mapping path="拦截哪些控制器的路径(requestMapping组装的访问路径)" />
+		<bean class="实现的拦截器类的全限定名" />
+	</mvc:interceptor>
+</mvc:interceptors>

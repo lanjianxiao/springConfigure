@@ -1,0 +1,26 @@
+<properties>
+	<property name="" value="" />
+</propertites>
+<properties resource="" />
+<settings>
+	<setting name="" value=""/>
+</settings>
+<typeAliasies>
+	<typeAlias alias="" type="" />
+	<package name="" />
+</typeAliasies>
+<typeHandlers>    <!-- TypeHandler接口或者继承BaseTypeHandler-->
+	<typeHandler handler="" jdbcType="" javaType="" />
+</typeHandlers>
+<plugins>      <!--实现myBatis提供的Interceptor接口-->
+	<plugin intercptor="">
+		<property name="" value="" />
+	</plugin>
+</plugins>
+<databaseIdProvider type="">
+	<property name="" value="" />
+</databaseIdProvider>
+<mappers>
+	<mapper resource="" />
+	<package name="" />
+</mappers>
